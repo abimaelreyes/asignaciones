@@ -1,0 +1,23 @@
+leolex_user_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: LEOLEXUserBundle:Default:index }
+
+leolex_user_index:
+    path: /user/index
+    defaults: {_controller: LEOLEXUserBundle:User:index}
+
+leolex_user_add:
+    path: /user/add
+    defaults: {_controller: LEOLEXUserBundle:User:add}
+
+leolex_user_edit:
+    path: /user/edit/{id}
+    defaults: {_controller: LEOLEXUserBundle:User:edit}
+
+leolex_user_view:
+    path: /user/view/{id}
+    defaults: {_controller: LEOLEXUserBundle:User:view}
+
+leolex_user_delete:
+    path: /user/delete/{id}
+    defaults: {_controller: LEOLEXUserBundle:User:delete}            
