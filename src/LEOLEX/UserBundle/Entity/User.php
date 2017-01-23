@@ -1,16 +1,15 @@
 <?php
-
 namespace LEOLEX\UserBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * User
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="LEOLEX\UserBundle\Entity\UserRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var integer
@@ -20,71 +19,60 @@ class User
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=50)
      */
     private $username;
-
     /**
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=100)
      */
     private $firstName;
-
     /**
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=100)
      */
     private $lastName;
-
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=100)
      */
     private $email;
-
     /**
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
-
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string",columnDefinition="ENUM('ROLE_ADMIN','ROLE_USER')", length=50)
+     * @ORM\Column(name="role", type="string", columnDefinition="ENUM('ROLE_ADMIN', 'ROLE_USER')", length=50)
      */
     private $role;
-
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
-
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="create_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createAt;
-
+    private $createdAt;
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="update_at", type="datetime")
+     * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updateAt;
-
-
+    private $updatedAt;
     /**
      * Get id
      *
@@ -94,7 +82,6 @@ class User
     {
         return $this->id;
     }
-
     /**
      * Set username
      *
@@ -104,10 +91,8 @@ class User
     public function setUsername($username)
     {
         $this->username = $username;
-
         return $this;
     }
-
     /**
      * Get username
      *
@@ -117,7 +102,6 @@ class User
     {
         return $this->username;
     }
-
     /**
      * Set firstName
      *
@@ -127,10 +111,8 @@ class User
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-
         return $this;
     }
-
     /**
      * Get firstName
      *
@@ -140,7 +122,6 @@ class User
     {
         return $this->firstName;
     }
-
     /**
      * Set lastName
      *
@@ -150,10 +131,8 @@ class User
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-
         return $this;
     }
-
     /**
      * Get lastName
      *
@@ -163,7 +142,6 @@ class User
     {
         return $this->lastName;
     }
-
     /**
      * Set email
      *
@@ -173,10 +151,8 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
-
         return $this;
     }
-
     /**
      * Get email
      *
@@ -186,7 +162,6 @@ class User
     {
         return $this->email;
     }
-
     /**
      * Set password
      *
@@ -196,10 +171,8 @@ class User
     public function setPassword($password)
     {
         $this->password = $password;
-
         return $this;
     }
-
     /**
      * Get password
      *
@@ -209,7 +182,6 @@ class User
     {
         return $this->password;
     }
-
     /**
      * Set role
      *
@@ -219,10 +191,8 @@ class User
     public function setRole($role)
     {
         $this->role = $role;
-
         return $this;
     }
-
     /**
      * Get role
      *
@@ -232,7 +202,6 @@ class User
     {
         return $this->role;
     }
-
     /**
      * Set isActive
      *
@@ -242,10 +211,8 @@ class User
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
-
         return $this;
     }
-
     /**
      * Get isActive
      *
@@ -255,50 +222,75 @@ class User
     {
         return $this->isActive;
     }
-
     /**
-     * Set createAt
+     * Set createdAt
      *
-     * @param \DateTime $createAt
+     * @param \DateTime $createdAt
      * @return User
      */
-    public function setCreateAt($createAt)
+    public function setCreatedAt($createdAt)
     {
-        $this->createAt = $createAt;
-
+        $this->createdAt = $createdAt;
         return $this;
     }
-
     /**
-     * Get createAt
+     * Get createdAt
      *
      * @return \DateTime 
      */
-    public function getCreateAt()
+    public function getCreatedAt()
     {
-        return $this->createAt;
+        return $this->createdAt;
     }
-
     /**
-     * Set updateAt
+     * Set updatedAt
      *
-     * @param \DateTime $updateAt
+     * @param \DateTime $updatedAt
      * @return User
      */
-    public function setUpdateAt($updateAt)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->updateAt = $updateAt;
-
+        $this->updatedAt = $updatedAt;
         return $this;
     }
-
     /**
-     * Get updateAt
+     * Get updatedAt
      *
      * @return \DateTime 
      */
-    public function getUpdateAt()
+    public function getUpdatedAt()
     {
-        return $this->updateAt;
+        return $this->updatedAt;
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+    
+    public function getRoles()
+    {
+        
+    }
+    
+    public function getSalt()
+    {
+        
+    }
+    
+    public function eraseCredentials()
+    {
+        
     }
 }

@@ -10,6 +10,11 @@ leolex_user_add:
     path: /user/add
     defaults: {_controller: LEOLEXUserBundle:User:add}
 
+leolex_user_create:
+    path: /user/create
+    defaults: {_controller: LEOLEXUserBundle:User:create}
+    methods: POST
+
 leolex_user_edit:
     path: /user/edit/{id}
     defaults: {_controller: LEOLEXUserBundle:User:edit}
